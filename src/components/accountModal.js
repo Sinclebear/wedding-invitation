@@ -28,9 +28,11 @@ const accountModal = ({clickedAccountData, setClickedAccountData, copiedAccount,
             <div className="account-info-area"></div>
             {clickedAccountData.map((item, index) => (
                 <div key={index} className="account-info-each">
-                    <div className="each-header">
-                        <div className="each-title">{item.title}</div>
-                    </div>
+                    {index < 2 && (
+                        <div className="each-header">
+                            <div className="each-title">{item.title}</div>
+                        </div>
+                    )}
                     <hr className="each-line"></hr>
                     <div className="each-body">
                         <p className="each-account-text">
