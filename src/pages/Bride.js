@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import data from '../assets/image_data.json';
-import pinIcon from '../assets/location-pin.png';
 import naverMapIcon from '../assets/naver-map-icon.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container as MapDiv, NaverMap, Marker, useNavermaps} from 'react-naver-maps';
 import '../App.css';
 import ImageModal from '../components/imageModal';
 import AccountModal from '../components/accountModal';
+import MapComponent from '../components/MapComponent';
 
 const brideAccountData = {
   data : [
@@ -18,15 +17,9 @@ const brideAccountData = {
     },
     {
       title: "혼주 계좌",
-      bank_name: process.env.REACT_APP_BRIDE_FATHER_ACCOUNT_BANK,
-      account_owner: process.env.REACT_APP_BRIDE_FATHER_ACCOUNT_OWNER,
-      account_number: process.env.REACT_APP_BRIDE_FATHER_ACCOUNT_NUMBER
-    },
-    {
-      title: "혼주 계좌",
-      bank_name: process.env.REACT_APP_BRIDE_MOTHER_ACCOUNT_BANK,
-      account_owner: process.env.REACT_APP_BRIDE_MOTHER_ACCOUNT_OWNER,
-      account_number: process.env.REACT_APP_BRIDE_MOTHER_ACCOUNT_NUMBER
+      bank_name: process.env.REACT_APP_BRIDE_PARENTS_ACCOUNT_BANK,
+      account_owner: process.env.REACT_APP_BRIDE_PARENTS_ACCOUNT_OWNER,
+      account_number: process.env.REACT_APP_BRIDE_PARENTS_ACCOUNT_NUMBER
     }
   ]
 }
@@ -41,9 +34,9 @@ const groomAccountData = {
     },
     {
       title: "혼주 계좌", 
-      bank_name: process.env.REACT_APP_GROOM_MOTHER_ACCOUNT_BANK,
-      account_owner: process.env.REACT_APP_GROOM_MOTHER_ACCOUNT_OWNER,
-      account_number: process.env.REACT_APP_GROOM_MOTHER_ACCOUNT_NUMBER
+      bank_name: process.env.REACT_APP_GROOM_PARENTS_ACCOUNT_BANK,
+      account_owner: process.env.REACT_APP_GROOM_PARENTS_ACCOUNT_OWNER,
+      account_number: process.env.REACT_APP_GROOM_PARENTS_ACCOUNT_NUMBER
     }
   ]
 }
@@ -66,6 +59,8 @@ const WeddingLocationPhoneNumber = process.env.REACT_APP_WEDDING_LOCATION_PHONE_
 const WeddingLocationParkingName = process.env.REACT_APP_WEDDING_LOCATION_PARKING_NAME;
 const WeddingLocationParkingAddress = process.env.REACT_APP_WEDDING_LOCATION_PARKING_ADDRESS;
 
+const mainTopImage = process.env.REACT_APP_MAIN_TOP_IMAGE;
+
 function Bride() {
   // state for image modal
   const [clickedImg, setClickedImg] = useState(null);
@@ -74,7 +69,7 @@ function Bride() {
   const [ clickedAccountData, setClickedAccountData ] = useState(null);
   const [ copiedAccount, setCopiedAccount ] = useState(null);
 
-  const navermaps = useNavermaps()
+
 
   const handleClick = (item, index) => {
     setCurrentIndex(index);
@@ -128,7 +123,7 @@ function Bride() {
           <div className="col-md">
             <div className='mainsection'>
               <div>
-                <img src="https://dave-khim-aws-bucket-public.s3.ap-northeast-2.amazonaws.com/test/love-tenderness-couple-s-crossed-hands.jpg" className='main-image' alt='t1'></img>
+                <img src={mainTopImage} className='main-image' alt='t1'></img>
               </div>
               <div className='mainsection-text'>
                 <div className='mainsection-text-1'>결혼식에 초대합니다</div>
@@ -182,25 +177,9 @@ function Bride() {
               </div>
             </div>
             <div className='location-map-section'>
-              <MapDiv
-                style={{
-                  width: '100%',
-                  height: '350px'
-                }}
-              >37.50177, 127.0316
-                <NaverMap 
-                  defaultCenter={new navermaps.LatLng(37.50177,127.0316)}
-                  defaultZoom={16}>
-                  <Marker 
-                  position={new navermaps.LatLng(37.50177,127.0316)} 
-                  icon={
-                    {
-                      url : pinIcon,
-                      size : new navermaps.Size(64, 64),
-                    }
-                  }/>
-                </NaverMap>
-              </MapDiv>
+              <Suspense fallback={<div style={{width: '100%', height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>지도를 불러오는 중...</div>}>
+                <MapComponent />
+              </Suspense>
             </div>
             <div className='location-info-section'>
                 <div className='location-info-section-text1'>위치</div>
@@ -218,7 +197,7 @@ function Bride() {
               <div className='location-how-publictrans-section-text1'>대중교통</div>
               <ul className='location-how-publictrans-section-list'>
                 <li>지하철 2호선 역삼역 4번 출구 → 출구 방향 직진</li>
-                <li>한국지식재산센터와 강남N타워 사이 골목으로 우회전</li>
+                <li>한국지식재산센터와 빗썸금융타워 사이 골목으로 우회전</li>
                 <li>정면 방향으로 200m 직진 (도보 약 5~7분)</li>
               </ul>
             </div>
