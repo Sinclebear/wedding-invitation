@@ -127,7 +127,7 @@ function Bride() {
           <div className="col-md">
             <div className='mainsection'>
               <div>
-                <img src="https://dave-khim-aws-bucket-public.s3.ap-northeast-2.amazonaws.com/test/love-tenderness-couple-s-crossed-hands.jpg" className='main-image' alt='t1'></img>
+                <img src={MainTopImage} className='main-image' alt='wedding-main'></img>
               </div>
               <div className='mainsection-text'>
                 <div className='mainsection-text-1'>결혼식에 초대합니다</div>
