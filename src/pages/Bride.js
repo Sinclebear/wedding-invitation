@@ -57,6 +57,10 @@ const BrideParentsName = process.env.REACT_APP_BRIDE_PARENTS_NAME;
 // Date
 const WeddingDate = process.env.REACT_APP_WEDDING_DATE;
 
+// Image Base URLs
+const ImageBaseUrl = process.env.REACT_APP_IMAGE_BASE_URL;
+const MainTopImage = process.env.REACT_APP_MAIN_TOP_IMAGE;
+
 // 웨딩홀
 const WeddingLocationName = process.env.REACT_APP_WEDDING_LOCATION_NAME;
 const WeddingLocationMapLink = process.env.REACT_APP_WEDDING_LOCATION_MAP_LINK;
@@ -78,7 +82,7 @@ function Bride() {
 
   const handleClick = (item, index) => {
     setCurrentIndex(index);
-    setClickedImg(item.link);
+    setClickedImg(`${ImageBaseUrl}${process.env[item.env_key]}`);
   };
   const accountClick = (account_data) => {
     setClickedAccountData(account_data.data);
@@ -88,7 +92,7 @@ function Bride() {
     const totalLength = data.data.length;
     if (currentIndex + 1 >= totalLength) {
       setCurrentIndex(0);
-      const newUrl = data.data[0].link;
+      const newUrl = `${ImageBaseUrl}${process.env[data.data[0].env_key]}`;
       setClickedImg(newUrl);
       return;
     }
@@ -96,7 +100,7 @@ function Bride() {
     const newUrl = data.data.filter((item) => {
       return data.data.indexOf(item) === newIndex;
       });
-    const newItem = newUrl[0].link;
+    const newItem = `${ImageBaseUrl}${process.env[newUrl[0].env_key]}`;
     setClickedImg(newItem);
     setCurrentIndex(newIndex);
   };
@@ -105,7 +109,7 @@ function Bride() {
     const totalLength = data.data.length;
     if (currentIndex === 0) {
       setCurrentIndex(totalLength - 1);
-      const newUrl = data.data[totalLength-1].link;
+      const newUrl = `${ImageBaseUrl}${process.env[data.data[totalLength-1].env_key]}`;
       setClickedImg(newUrl);
       return;
     }
@@ -113,7 +117,7 @@ function Bride() {
     const newUrl = data.data.filter((item) => {
       return data.data.indexOf(item) === newIndex;
       });
-    const newItem = newUrl[0].link;
+    const newItem = `${ImageBaseUrl}${process.env[newUrl[0].env_key]}`;
     setClickedImg(newItem);
     setCurrentIndex(newIndex);
   };
@@ -128,7 +132,7 @@ function Bride() {
           <div className="col-md">
             <div className='mainsection'>
               <div>
-                <img src="https://dave-khim-aws-bucket-public.s3.ap-northeast-2.amazonaws.com/test/love-tenderness-couple-s-crossed-hands.jpg" className='main-image' alt='t1'></img>
+                <img src={MainTopImage} className='main-image' alt='wedding-main'></img>
               </div>
               <div className='mainsection-text'>
                 <div className='mainsection-text-1'>결혼식에 초대합니다</div>
@@ -165,7 +169,7 @@ function Bride() {
               <div className='gallery-image-list-wrapper row'>
                   {data.data.map((item, index) => (
                     <div key={index} className='col-4'>
-                      <img className='gallery-image' src={item.thumb_image_link} alt={item.text} onClick={()=> handleClick(item, index)}/>
+                      <img className='gallery-image' src={`${ImageBaseUrl}${process.env[item.thumb_env_key]}`} alt={item.text} onClick={()=> handleClick(item, index)}/>
                     </div>
                   ))}
               </div>
