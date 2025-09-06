@@ -1,5 +1,9 @@
 # wedding-invitation-sample
 
+to avoid conflict typescript version, install with:
+
+### `npm i --legacy-peer-deps`
+
 In the project directory, you can run:
 
 ### `npm start`
